@@ -1,0 +1,127 @@
+/* ===============================
+   NAVBAR SUPERIOR
+=================================*/
+.main-header {
+    background-color: #FE7B00 !important;
+}
+
+/* ===============================
+   SIDEBAR
+=================================*/
+.main-sidebar {
+    background-color: #2b2b2b !important;
+}
+
+/* Texto sidebar */
+.nav-sidebar .nav-link {
+    color: #ffffff !important;
+}
+
+/* Hover sidebar */
+.nav-sidebar .nav-link:hover {
+    background-color: #FE7B00 !important;
+}
+
+/* Item ativo */
+.nav-sidebar .nav-link.active {
+    background-color: #FE7B00 !important;
+}
+
+/* ===============================
+   BOTÕES
+=================================*/
+
+/* Salvar */
+.btn-success {
+    background-color: #FE7B00 !important;
+    border-color: #FE7B00 !important;
+}
+
+/* Remover */
+.btn-danger {
+    background-color: #c82333 !important;
+}
+
+/* Continuar editando */
+.btn-info {
+    background-color: #6c757d !important;
+}
+
+/* Botões padrão */
+.btn-primary {
+    background-color: #FE7B00 !important;
+    border-color: #FE7B00 !important;
+}
+
+/* Hover geral */
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* ===============================
+   TÍTULOS
+=================================*/
+.content-header h1 {
+    color: #FE7B00 !important;
+}
+
+/* ===============================
+   TABELAS
+=================================*/
+.table thead {
+    background-color: #FE7B00 !important;
+    color: white;
+}
+
+/* ===============================
+   LOGIN
+=================================*/
+.login-page {
+    background: linear-gradient(135deg, #2b2b2b, #000000);
+}
+
+.login-logo a {
+    color: #FE7B00 !important;
+}
+
+/* ===============================
+   CARDS / CAIXAS
+=================================*/
+.card-primary.card-outline {
+    border-top: 3px solid #FE7B00;
+}
+
+/* =================================
+   TEXTO DO CABEÇALHO DA TABELA
+=================================*/
+.table thead th {
+    color: #ffffff !important;
+}
+
+/* =================================
+   LINKS DENTRO DA TABELA
+=================================*/
+.table a {
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+/* Hover dos links */
+.table a:hover {
+    color: #333333 !important;
+}
+
+/* =================================
+   ÍCONES DE ORDENAÇÃO
+=================================*/
+.table thead th a {
+    color: #ffffff !important;
+}
+
+/* =================================
+   BOTÃO "X" / AÇÕES
+=================================*/
+.table .deletelink,
+.table .changelink {
+    color: #000000 !important;
+}
