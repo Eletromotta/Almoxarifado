@@ -1,3 +1,6 @@
+//console.log("JS CARREGADO DA STATIC");
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     function getRow(fieldId) {
@@ -44,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             hideRow(fornecedorRow);
             hideRow(notaRow);
             hideRow(valorRow);
-            hideRow(motivoRow); // <-- ADICIONADO
+          //  hideRow(motivoRow); // <-- ADICIONADO
         }
 
         // ✅ ENTRADA
@@ -52,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
             hideRow(motivoRow);
             hideRow(centroCustoRow);
             hideRow(colaboradorRow);
+         //   hideRow(valorRow); // <-- ADICIONADO            
         }
 
         // ✅ DEVOLUÇÃO

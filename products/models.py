@@ -202,9 +202,9 @@ class Movimentacao(BaseModel):
         blank=True
     )
 
-    centro_custo = models.ForeignKey(CentroCusto, on_delete=models.PROTECT)
+    centro_custo = models.ForeignKey(CentroCusto, on_delete=models.PROTECT,null=True, blank=True)
 
-    colaborador = models.ForeignKey(Colaborador, on_delete=models.PROTECT)
+    colaborador = models.ForeignKey(Colaborador, on_delete=models.PROTECT,null=True, blank=True)
 
     quantidade_mov = models.IntegerField(verbose_name='Quantidade')
 
@@ -234,6 +234,7 @@ class Movimentacao(BaseModel):
         if self.tipo_mov in ['S', 'D']:
             self.fornecedor = None
             self.nota_fiscal = None
+            #self.motivo = None            
 
     def __str__(self):
         return f"{self.get_tipo_mov_display()} - {self.produto}"

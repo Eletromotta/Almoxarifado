@@ -1,3 +1,6 @@
+console.log("JS CARREGADO DA STATIC");
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     function getRow(fieldId) {

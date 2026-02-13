@@ -2,9 +2,7 @@ from django.contrib import admin
 from django.db.models import Sum, Case, When, IntegerField, F
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
-from datetime import date
 from django.utils.formats import date_format
-
 
 from .models import (
     Categoria,
@@ -132,97 +130,6 @@ class ProdutoAdmin(admin.ModelAdmin):
             '#000000',
             'Normal'
         )
-
-
-# @admin.register(Movimentacao)
-# class MovimentacaoAdmin(admin.ModelAdmin):
-
-#     list_per_page = 100
-#     class Media:
-#         js = ('js/movimentacao_admin.js',)
-
-    
-#     list_display = (
-#         'tipo_mov',
-#         'produto',
-#         'motivo',
-#         'quantidade_mov',
-#         'centro_custo',
-#         'data_mov',
-#         'arquivo'
-#     )
-#     list_filter = ('tipo_mov', 'data_mov')
-#     search_fields = ('produto__descricao',)
-#     autocomplete_fields = (
-#         'produto',
-#         'fornecedor',
-#         'nota_fiscal',
-#         'centro_custo'
-#     )
-#     readonly_fields = ('data_mov',)
-
-#     def has_change_permission(self, request, obj=None):
-#         if obj:
-#             return False
-#         return super().has_change_permission(request, obj)
-
-#     def has_delete_permission(self, request, obj=None):
-#         return False
-
-
-# @admin.register(Movimentacao)
-# class MovimentacaoAdmin(admin.ModelAdmin):
-
-#     list_per_page = 100
-
-#     class Media:
-#         js = ('js/movimentacao_admin.js',)
-
-#     list_display = (
-#         'tipo_mov',
-#         'produto',
-#         'motivo',
-#         'quantidade_mov',
-#         'centro_custo',
-#         'data_mov_formatada',   # ✅ substituí aqui
-#         'arquivo'
-#     )
-
-#     list_filter = ('tipo_mov', 'data_mov')
-
-#     search_fields = ('produto__descricao',)
-
-#     autocomplete_fields = (
-#         'produto',
-#         'fornecedor',
-#         'nota_fiscal',
-#         'centro_custo'
-#     )
-
-#     readonly_fields = ('data_mov',)
-
-#     # ✅ Formatação da data simplificada
-#     def data_mov_formatada(self, obj):
-#         return date_format(obj.data_mov, "d/m/Y H:i")
-
-#     data_mov_formatada.short_description = "Data Mov."
-#     data_mov_formatada.admin_order_field = "data_mov"
-
-#     # ✅ Bloqueia edição
-#     def has_change_permission(self, request, obj=None):
-#         if obj:
-#             return False
-#         return super().has_change_permission(request, obj)
-
-#     # ✅ Bloqueia exclusão
-#     def has_delete_permission(self, request, obj=None):
-#         return False
-
-from django.contrib import admin
-from django.utils.formats import date_format
-from django.utils.html import format_html
-from .models import Movimentacao
-
 
 @admin.register(Movimentacao)
 class MovimentacaoAdmin(admin.ModelAdmin):

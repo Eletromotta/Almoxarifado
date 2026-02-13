@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-^7^k!*nuz3d2(3pzx*buc+iw@46o_%+#r&5g17@1jg=i5e3@wo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['Eletromotta.pythonanywhere.com']
-
+#ALLOWED_HOSTS = ['Eletromotta.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -139,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
