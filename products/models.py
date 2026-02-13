@@ -202,9 +202,19 @@ class Movimentacao(BaseModel):
         blank=True
     )
 
-    centro_custo = models.ForeignKey(CentroCusto, on_delete=models.PROTECT,null=True, blank=True)
+    centro_custo = models.ForeignKey(
+        CentroCusto,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
-    colaborador = models.ForeignKey(Colaborador, on_delete=models.PROTECT,null=True, blank=True)
+    colaborador = models.ForeignKey(
+        Colaborador,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
     quantidade_mov = models.IntegerField(verbose_name='Quantidade')
 

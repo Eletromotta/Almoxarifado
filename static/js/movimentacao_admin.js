@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hideRow(fornecedorRow);
             hideRow(notaRow);
             hideRow(valorRow);
-          //  hideRow(motivoRow); // <-- ADICIONADO
         }
 
         // ✅ ENTRADA
@@ -55,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hideRow(motivoRow);
             hideRow(centroCustoRow);
             hideRow(colaboradorRow);
-         //   hideRow(valorRow); // <-- ADICIONADO            
         }
 
         // ✅ DEVOLUÇÃO
