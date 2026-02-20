@@ -1,0 +1,108 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<h2 style="margin-bottom:20px;">
+    Movimentações de <strong>{{ colaborador.nome }}</strong>
+</h2>
+
+<style>
+    .relatorio-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+    }
+
+    .relatorio-table th {
+        background-color: #f8f8f8;
+        padding: 10px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .relatorio-table td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .relatorio-table tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .entrega {
+        color: #1e7e34;
+        font-weight: bold;
+    }
+
+    .devolucao {
+        color: #c82333;
+        font-weight: bold;
+    }
+
+    .motivo-none {
+        color: #999;
+        font-style: italic;
+    }
+
+    .voltar-btn {
+        margin-top: 20px;
+        display: inline-block;
+    }
+</style>
+
+<table class="relatorio-table">
+    <thead>
+        <tr>
+            <th style="width: 20%;">Colaborador</th>
+            <th style="width: 30%;">Descrição do EPI</th>
+            <th style="width: 20%;">Entrega</th>
+            <th style="width: 20%;">Devolução</th>
+            <th style="width: 25%;">Motivo</th>
+        </tr>
+    </thead>
+   <tbody>
+    {% for mov in movimentacoes %}
+    <tr>
+        <td>{{ mov.colaborador }}</td>
+        <td>{{ mov.produto }}</td>
+
+        <td>
+            {% if mov.tipo_mov == 'S' %}
+                <span class="entrega">
+                    {{ mov.data_mov|date:"d/m/Y H:i" }}
+                </span>
+            {% endif %}
+        </td>
+
+        <td>
+            {% if mov.tipo_mov == 'E' %}
+                <span class="devolucao">
+                    {{ mov.data_mov|date:"d/m/Y H:i" }}
+                </span>
+            {% endif %}
+        </td>
+
+        <td>
+            {% if mov.motivo %}
+                {{ mov.motivo }}
+            {% else %}
+                <span class="motivo-none">Sem motivo</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">Nenhuma movimentação encontrada.</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'admin:products_colaborador_movimentacoes_pdf' colaborador.id %}" 
+   class="button" style="margin-bottom:15px;">
+    Exportar PDF
+</a>
+
+<a href="../../" class="button voltar-btn">Voltar</a>
+
+{% endblock %}
