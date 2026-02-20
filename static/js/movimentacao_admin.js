@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // ✅ DEVOLUÇÃO
         if (tipo === "D") {
             hideRow(notaRow);
-            hideRow(motivoRow);
+        //    hideRow(motivoRow);
             hideRow(valorRow);
             hideRow(fornecedorRow);
         }
