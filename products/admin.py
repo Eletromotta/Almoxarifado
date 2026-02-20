@@ -1,8 +1,23 @@
+import csv
+from django.http import HttpResponse
 from django.contrib import admin
 from django.db.models import Sum, Case, When, IntegerField, F
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
 from django.utils.formats import date_format
+from django.urls import path
+from django.shortcuts import render
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import utils
+from reportlab.lib.units import inch
+import os
+from django.urls import path
+from django.shortcuts import redirect
 
 from .models import (
     Categoria,
@@ -55,7 +70,158 @@ class FuncaoAdmin(admin.ModelAdmin):
 
 @admin.register(Colaborador)
 class ColaboradorAdmin(admin.ModelAdmin):
-    list_display = ('nome','funcao','status')
+    
+    list_display = ('nome', 'funcao', 'matricula', 'area', 'status')
+    actions = ['ver_movimentacoes']
+
+    def ver_movimentacoes(self, request, queryset):
+        if queryset.count() != 1:
+            self.message_user(request, "Selecione apenas um colaborador.")
+            return
+
+        colaborador = queryset.first()
+
+        url = reverse(
+            'admin:products_colaborador_movimentacoes',
+            args=[colaborador.id]
+        )
+
+        return redirect(url)
+
+
+    ver_movimentacoes.short_description = "Ver movimentações do colaborador"
+
+    def movimentacoes_view(self, request, colaborador_id):
+
+        colaborador = Colaborador.objects.get(pk=colaborador_id)
+
+        movimentacoes = Movimentacao.objects.filter(
+            colaborador=colaborador
+        ).select_related('produto', 'motivo')
+
+        context = dict(
+            self.admin_site.each_context(request),
+            colaborador=colaborador,
+            movimentacoes=movimentacoes,
+        )
+
+        return render(request, "admin/movimentacoes_colaborador.html", context)
+    
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                '<int:colaborador_id>/movimentacoes/',
+                self.admin_site.admin_view(self.movimentacoes_view),
+                name='products_colaborador_movimentacoes',
+            ),
+            path(
+                '<int:colaborador_id>/movimentacoes/pdf/',
+                self.admin_site.admin_view(self.exportar_pdf),
+                name='products_colaborador_movimentacoes_pdf',
+            ),
+        ]
+        return custom_urls + urls
+    
+    def exportar_pdf(self, request, colaborador_id):
+
+        colaborador = Colaborador.objects.get(pk=colaborador_id)
+
+        movimentacoes = Movimentacao.objects.filter(
+            colaborador=colaborador
+        ).order_by('-data_mov')
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="movimentacoes_{colaborador.nome}.pdf"'
+
+        doc = SimpleDocTemplate(response)
+        elements = []
+
+        styles = getSampleStyleSheet()
+
+        # 🔹 LOGO DA EMPRESA
+        logo_path = os.path.join('static', 'logo.png')  # ajuste se necessário
+
+        if os.path.exists(logo_path):
+            img = Image(logo_path, width=2*inch, height=1*inch)
+            elements.append(img)
+
+        elements.append(Spacer(1, 12))
+
+        # 🔹 TÍTULO
+        titulo = Paragraph(f"<b>Relatório de Movimentações</b><br/>{colaborador.nome}", styles['Title'])
+        elements.append(titulo)
+
+        elements.append(Spacer(1, 20))
+
+        # 🔹 DADOS DA TABELA
+        data = [
+            ['Produto', 'Tipo', 'Data', 'Motivo']
+        ]
+
+        for mov in movimentacoes:
+            tipo = "ENTREGA" if mov.tipo_mov == 'S' else "DEVOLUÇÃO"
+
+            data.append([
+                str(mov.produto),
+                tipo,
+                mov.data_mov.strftime("%d/%m/%Y %H:%M"),
+                mov.motivo or ""
+            ])
+
+        table = Table(data, repeatRows=1)
+
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
+            ('ALIGN', (1, 1), (-2, -1), 'CENTER'),
+        ]))
+
+        elements.append(table)
+
+        doc.build(elements)
+
+        return response
+
+    #list_display = ('nome', 'funcao', 'matricula', 'area', 'status', 'created_at', 'updated_at' )
+
+    #actions = ['export_to_csv']
+
+    # def export_to_csv(self, request, queryset):
+    #     response = HttpResponse(content_type='text/csv')
+    #     response['Content-Disposition'] = 'attachment; filename="colaborador.csv"'
+
+    #     writer = csv.writer(response)
+    #     writer.writerow([
+    #         'Nome',
+    #         'Função',
+    #         'Matrícula',
+    #         'Área',
+    #         'Status',
+    #         'Criado em',
+    #         'Atualizado em'
+    #     ])
+
+    #     for colaborador in queryset:
+    #         writer.writerow([
+    #             colaborador.nome,
+    #             colaborador.funcao.descricao if colaborador.funcao else '',
+    #             colaborador.matricula,
+    #             colaborador.area if colaborador.area else '',
+    #             colaborador.status if colaborador.status else '',
+    #             colaborador.created_at,
+    #             colaborador.updated_at
+    #         ])
+
+    #     return response
+
+    # export_to_csv.short_description = 'Exportar selecionados para CSV'
+
+    # actions = [export_to_csv]
+
       
 @admin.register(Fornecedor)
 class FornecedorAdmin(admin.ModelAdmin):

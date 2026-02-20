@@ -70,34 +70,6 @@ class Funcao(BaseModel):
         return self.descricao
 
 
-class Colaborador(BaseModel):
-    nome = models.CharField(max_length=150, unique=True, verbose_name='Nome')
-
-    status = models.ForeignKey(
-        Status,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        verbose_name='Status'
-    )
-
-    funcao = models.ForeignKey(
-        Funcao,
-        on_delete=models.PROTECT,
-        null=True,        # ⭐ Evita erro em migração futura
-        blank=True,
-        verbose_name='Função'
-    )
-
-    class Meta:
-        ordering = ['nome']
-        verbose_name = 'Colaborador'
-        verbose_name_plural = 'Colaboradores'
-
-    def __str__(self):
-        return self.nome
-
-
 class Fornecedor(BaseModel):
     nome = models.CharField(max_length=150, unique=True, verbose_name='Nome Fornecedor')
 
@@ -127,6 +99,45 @@ class CentroCusto(BaseModel):
     def __str__(self):
         return self.descricao
 
+class Colaborador(BaseModel):
+    nome = models.CharField(max_length=150, unique=True, verbose_name='Nome')
+
+    matricula = models.IntegerField(
+    verbose_name='Matrícula',
+    default=0
+    )
+
+    status = models.ForeignKey(
+        Status,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        verbose_name='Status'
+    )
+
+    funcao = models.ForeignKey(
+        Funcao,
+        on_delete=models.PROTECT,
+        null=True,        
+        blank=True,
+        verbose_name='Função'
+    )
+
+    area = models.ForeignKey(
+        CentroCusto,
+        on_delete=models.PROTECT,
+        null=True,        
+        blank=True,
+        verbose_name='Área'
+    )
+
+    class Meta:
+        ordering = ['nome']
+        verbose_name = 'Colaborador'
+        verbose_name_plural = 'Colaboradores'
+
+    def __str__(self):
+        return self.nome
 
 class NotaFiscal(BaseModel):
     fornecedor = models.ForeignKey(
