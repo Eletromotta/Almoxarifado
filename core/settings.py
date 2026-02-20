@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-^7^k!*nuz3d2(3pzx*buc+iw@46o_%+#r&5g17@1jg=i5e3@wo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['Eletromotta.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Eletromotta.pythonanywhere.com']
+#ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [

@@ -140,7 +140,7 @@ class ColaboradorAdmin(admin.ModelAdmin):
         styles = getSampleStyleSheet()
 
         # 🔹 LOGO DA EMPRESA
-        logo_path = os.path.join('static', 'logo.png')  # ajuste se necessário
+        logo_path = os.path.join('static/images', 'logo_eletromotta.jpg')  # ajuste se necessário
 
         if os.path.exists(logo_path):
             img = Image(logo_path, width=2*inch, height=1*inch)
